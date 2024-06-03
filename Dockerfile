@@ -9,13 +9,13 @@ RUN apk update && \
     apk add --no-cache bash && \
     apk add --no-cache python3
 
+COPY update_genesis_json.sh /
 COPY start.sh /
-COPY prepare.sh /
 COPY genesis.json /
 
 RUN chmod +x start.sh
 
-RUN /bin/bash ./prepare.sh ${CHAIN_ID} ${ACCOUNT_PASSWORD} ${ACCOUNT_BALANCE} ${GAS_LIMIT} && \
+RUN /bin/bash ./update_genesis_json.sh ${CHAIN_ID} ${ACCOUNT_PASSWORD} ${ACCOUNT_BALANCE} ${GAS_LIMIT} && \
     geth init genesis.json && \
     rm -f ~/.ethereum/geth/nodekey
 
